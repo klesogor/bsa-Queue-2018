@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 
+use App\Entity\Currency;
+use App\Http\Requests\UpdateCurrencyRateRequest;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,4 +18,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::put('/currencies/{currency}/rate',function(Currency $currency, UpdateCurrencyRateRequest $request){
+    if(Gate::denies('currency.update',$currency))
+        abort(403);
+
+    $currency->update($request->validated());
 });
