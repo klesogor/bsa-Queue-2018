@@ -3,8 +3,7 @@
 namespace App\Events;
 
 use App\Entity\Currency;
-use App\Jobs\SendRateChangedEmail;
-use App\User;
+use App\Services\CurrencyNotificationServiceInterface;
 
 class CurrencyObserver
 {
@@ -12,10 +11,14 @@ class CurrencyObserver
     {
         $oldRate = $currency->getOriginal('rate');
         if($oldRate !== $currency->rate ){
-            User::recivesRateUpdates()->get()->each(function($item) use ($currency, $oldRate) {
-                $job = (new SendRateChangedEmail($item,$currency,$oldRate))->onQueue('notification');
-                dispatch($job);
-            });
+           app(CurrencyNotificationServiceInterface::class)->notifyCurrencyRateChanged($currency,$oldRate);
         }
     }
+
+    //I planned to implement this, however I don't have enough time :(
+    /*public function created(Currency $currency)
+    {
+        app(CurrencyNotificationServiceInterface::class)->notifyCurrencyCreated($currency);
+    }
+    */
 }

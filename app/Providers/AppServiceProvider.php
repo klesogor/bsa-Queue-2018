@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Entity\Currency;
 use App\Events\CurrencyObserver;
+use App\Services\CurrencyNotificationService;
+use App\Services\CurrencyNotificationServiceInterface;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(CurrencyNotificationServiceInterface::class,
+                CurrencyNotificationService::class);
     }
 }
