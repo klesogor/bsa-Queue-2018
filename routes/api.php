@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 
 use App\Entity\Currency;
 use App\Http\Requests\UpdateCurrencyRateRequest;
+use App\Services\CurrencyRepositoryInterface;
+use App\Services\UpdateRateRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::put('/currencies/{currency}/rate',function(Currency $currency, UpdateCurrencyRateRequest $request){
-    if(Gate::denies('currency.update',$currency))
+Route::put('/currencies/{currency}/rate',function(int $currencyId, UpdateCurrencyRateRequest $request,CurrencyRepositoryInterface $repository){
+    if(Gate::denies('currency.update',$repository->getById($currencyId))){
         abort(403);
-
-    $currency->update($request->validated());
+    }
+    $repository->updateRate(new UpdateRateRequest($currencyId,$request->rate));
 });

@@ -6,6 +6,8 @@ use App\Entity\Currency;
 use App\Events\CurrencyObserver;
 use App\Services\CurrencyNotificationService;
 use App\Services\CurrencyNotificationServiceInterface;
+use App\Services\CurrencyRepository;
+use App\Services\CurrencyRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Currency::observe(CurrencyObserver::class);
+        //Currency::observe(CurrencyObserver::class);
     }
 
     /**
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CurrencyNotificationServiceInterface::class,
                 CurrencyNotificationService::class);
+        $this->app->singleton(CurrencyRepositoryInterface::class, CurrencyRepository::class);
     }
 }
