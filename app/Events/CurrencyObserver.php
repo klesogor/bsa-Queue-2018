@@ -7,7 +7,8 @@ use App\Services\CurrencyNotificationServiceInterface;
 
 class CurrencyObserver
 {
-    public function updated(Currency $currency)
+    //I will just leave it here
+    /*public function updated(Currency $currency)
     {
         $oldRate = $currency->getOriginal('rate');
         if($oldRate !== $currency->rate ){
@@ -15,8 +16,8 @@ class CurrencyObserver
         }
     }
 
-    //I planned to implement this, however I don't have enough time :(
-    /*public function created(Currency $currency)
+    
+    public function created(Currency $currency)
     {
         app(CurrencyNotificationServiceInterface::class)->notifyCurrencyCreated($currency);
     }

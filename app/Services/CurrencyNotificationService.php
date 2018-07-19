@@ -9,15 +9,13 @@ use App\User;
 class CurrencyNotificationService implements CurrencyNotificationServiceInterface
 {
 
-    public function notifyCurrencyRateChanged( Currency $currency, float $oldRate): void
+    public function notifyCurrencyRateChanged( Currency $currency, float $oldRate, User $user): void
     {
-        User::recivesRateUpdates()->get()->each(function($item) use ($currency, $oldRate) {
-            $job = (new SendRateChangedEmail($item,$currency,$oldRate))->onQueue('notification');
+            $job = (new SendRateChangedEmail($user,$currency,$oldRate))->onQueue('notification');
             dispatch($job);
-        });
     }
 
-    public function notifyCurrencyCreated( Currency $currency): void
+    public function notifyCurrencyCreated( Currency $currency, User $user): void
     {
         throw new \Exception('Not implemented yet!');
     }
