@@ -8,9 +8,9 @@ use App\User;
 
 interface CurrencyNotificationServiceInterface
 {
-    public function notifyCurrencyRateChanged(Currency $currency, float $oldRate):void;
+    public function notifyCurrencyRateChanged(Currency $currency, float $oldRate, User $user):void;
 
-    public function notifyCurrencyCreated(Currency $currency):void;
+    public function notifyCurrencyCreated(Currency $currency,User $user):void;
 
     //any other notifications we might need...
 }

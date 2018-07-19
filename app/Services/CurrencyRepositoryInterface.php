@@ -7,5 +7,5 @@ interface CurrencyRepositoryInterface
 {
     public function getById(int $id): Currency;
 
-    public function updateRate(UpdateRateRequest $request): void;
+    public function save(Currency $currency): Currency;
 }

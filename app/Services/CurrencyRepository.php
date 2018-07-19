@@ -17,15 +17,9 @@ class CurrencyRepository implements CurrencyRepositoryInterface
         return Currency::find($id);
     }
 
-    public function updateRate(UpdateRateRequest $request): void
+    public function save(Currency $currency): Currency
     {
-        $currency = Currency::find($request->getId());
-        if(is_null($currency)){
-            abort(404);
-        }
-        $oldPrice = $currency->rate;
-        $currency->rate = $request->getNewRate();
         $currency->save();
-        $this->service->notifyCurrencyRateChanged($currency,$oldPrice);   
+        return $currency;
     }
 }

@@ -23,9 +23,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::put('/currencies/{currency}/rate',function(int $currencyId, UpdateCurrencyRateRequest $request,CurrencyRepositoryInterface $repository){
-    if(Gate::denies('currency.update',$repository->getById($currencyId))){
-        abort(403);
-    }
-    $repository->updateRate(new UpdateRateRequest($currencyId,$request->rate));
-});
+Route::put('/currencies/{currency}/rate','HomeController@updateRate');
