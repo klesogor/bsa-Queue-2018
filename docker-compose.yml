@@ -1,0 +1,38 @@
+version: '2'
+services:
+  # The Application
+  app:
+    #for development it's better to use build with dockerfile. However, since I pushed image to dockerhub, why not to use it?
+    image: klesogor/bsa-2018-queue
+    #build:
+      #context: ./
+      #dockerfile: app.dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=database"
+    depends_on:
+      - database
+    ports:
+      - "8080:80"
+    #run migrations
+    command: php artisan migrate
+    command: vendor/bin/phpunit
+
+  # The Database
+  database:
+    image: mysql:5.6
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+
+ 
+
+volumes:
+  dbdata:
